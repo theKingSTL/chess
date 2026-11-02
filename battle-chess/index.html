@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Battle Chess</title>
+    <meta name="description" content="Chess where every capture is a fight: tactical RPG sprites on a Three.js board." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='54' font-size='56'%3E%E2%99%9E%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="stage" aria-label="Battle chess board"></canvas>
+
+      <div id="loading" class="loading">
+        <div class="loading-title">BATTLE CHESS</div>
+        <div class="loading-text" id="loading-text">Mustering the armies…</div>
+      </div>
+
+      <header class="hud-top">
+        <div class="turn" id="turn" data-color="w"><span class="turn-dot"></span><span id="turn-text">White to move</span></div>
+        <div class="banner" id="banner" hidden></div>
+      </header>
+
+      <aside class="panel" id="panel">
+        <h1 class="title">BATTLE<br />CHESS</h1>
+
+        <section class="group">
+          <label class="field">
+            <span>Mode</span>
+            <select id="mode">
+              <option value="ai-w">You (White) vs Computer</option>
+              <option value="ai-b">You (Black) vs Computer</option>
+              <option value="pvp">Two players</option>
+              <option value="cvc">Computer vs Computer</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Computer</span>
+            <select id="level">
+              <option value="easy">Squire (easy)</option>
+              <option value="normal" selected>Knight (normal)</option>
+              <option value="hard">Grandmaster (hard)</option>
+            </select>
+          </label>
+          <div class="row">
+            <button id="new-game" class="btn primary">New game</button>
+            <button id="undo" class="btn">Undo</button>
+          </div>
+        </section>
+
+        <section class="group">
+          <label class="field">
+            <span>Battles</span>
+            <select id="battle-speed">
+              <option value="1">Full battles</option>
+              <option value="2">Fast battles</option>
+              <option value="0">Off (slide only)</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" id="battle-cam" checked /> Battle camera</label>
+          <label class="check"><input type="checkbox" id="icons" checked /> Piece icons</label>
+          <label class="check"><input type="checkbox" id="sound" checked /> Sound</label>
+          <div class="row">
+            <button id="rot-left" class="btn" title="Rotate camera (Q)">⟲ Q</button>
+            <button id="rot-right" class="btn" title="Rotate camera (E)">E ⟳</button>
+            <button id="flip" class="btn" title="Flip board (F)">Flip</button>
+          </div>
+        </section>
+
+        <section class="group grow">
+          <div class="captured" id="captured-b" aria-label="Pieces White has taken"></div>
+          <ol class="moves" id="moves" aria-label="Move list"></ol>
+          <div class="captured" id="captured-w" aria-label="Pieces Black has taken"></div>
+        </section>
+
+        <footer class="credits">
+          Sprites &amp; engine: <a href="https://3d.internet.dev" target="_blank" rel="noopener">create-tactics-threejs-sprite</a> (MIT). Items: <a href="https://set.world" target="_blank" rel="noopener">Set</a> by Jimmy Lee (CC BY 4.0). Font: Nix8810 by VileR (CC BY-SA 4.0).
+        </footer>
+      </aside>
+
+      <div class="modal" id="promotion" hidden>
+        <div class="modal-card">
+          <div class="modal-title">Promote your pawn</div>
+          <div class="promo-choices" id="promo-choices"></div>
+        </div>
+      </div>
+
+      <div class="modal" id="game-over" hidden>
+        <div class="modal-card">
+          <div class="modal-title" id="game-over-title">Checkmate</div>
+          <div class="modal-text" id="game-over-text"></div>
+          <div class="row center">
+            <button class="btn primary" id="game-over-new">New game</button>
+            <button class="btn" id="game-over-close">View board</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint">Click a unit, then a square · Q/E rotate · wheel zoom · F flip · Ctrl+Z undo</div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
